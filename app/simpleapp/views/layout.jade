@@ -1,0 +1,81 @@
+doctype html
+html
+  head
+    link(rel='stylesheet', href='/stylesheets/siteTheme.css')
+    script(src="/socket.io/socket.io.js")
+    script(src='/javascripts/myGame.js')
+    script(src="http://code.jquery.com/jquery-1.11.1.js")
+    script.
+      console.log('loading script');
+        var socket = io();
+        console.log('connected');
+
+        function send(){
+          console.log('send');
+          var message = document.getElementById('message');
+          var score = document.getElementById('hidden');
+          socket.emit('message', message.value, score.value);
+          message.value = '';
+          score.value = '';
+        };
+
+        socket.on('message', function(msg, scre){
+          console.log('name started');
+          var messages = document.getElementById('messages');
+          var scores = document.getElementById('score');
+          var newScore = document.createElement('li');
+          var newName = document.createElement('li');
+          newName.innerHTML = msg;
+          newScore.innerHTML = scre;
+          scores.appendChild(scre);
+          messages.appendChild(msg);
+          console.log('name ended');
+        });
+    title Water Game
+
+  body(onload='startGame()')
+    nav
+      ul#navUL
+        li
+          a(href='Homepage.html') Homepage
+        li
+          a(href='Gamepage.html') Game
+        li
+          a(href='Designpage.html') Design
+        li
+          a(href='Rulespage.html') Rules
+        li
+          a(href='Testpage.html') Tests
+        li
+          a(href='/Biospage.html') Bios
+        button(type='button') Login
+        button(type='button') Register
+        form Password:
+          input(type='password', name='Password')
+        form ID:
+          input(type='text', name='ID')
+    header
+      img(src='Images/title.png',alt='Saving Water')
+
+    #sidebar
+      h2 Useful Links
+        a(href='http://www.watercorporation.com.au/')
+          img(src='Images/watercorp.png',alt='Water Corporation')
+        a(href='https://www.sydneywater.com.au/SW/water-the-environment/what-you-can-do/water-saving-tips/index.htm')
+          img(src='Images/sydneywater.jpg',alt='Sydney Water')
+        a(href='http://wateruseitwisely.com/')
+          img(src='Images/wateruseit.jpg',alt='Water: Use it Wisely')
+        a(href='http://www.environment.gov.au/water/water-education-toolkit/water-conservation')
+          img(src='Images/depenvironment.png',alt='Department of the Environment')
+
+    #game
+
+    #hidden
+
+    #scoreboard
+      Type Your name here:
+      form(action="", id='msgForm', onSubmit='return false')
+        input(id="message" autocomplete="off")
+        button(type='button', onClick='send();') Send
+    footer#myFooter
+      script(src='/javascripts/myFooter.js')
